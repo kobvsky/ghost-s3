@@ -47,14 +47,16 @@ module.exports.save = function(image) {
             CacheControl: 'maxage=' + (30 * 24 * 60 * 60) // 30 days
         });
     })
-    .then(function(result) {
-        return unlink(image.path);
-    })
+    // should not unlink here   
+    //.then(function(result) {
+    //    return unlink(image.path);
+    //})
     .then(function() {
         return when.resolve(awsPath + targetFilename);
     })
     .catch(function(err) {
-        unlink(image.path);
+        // unlink will be called in upload.js later on
+        //unlink(image.path);
         errors.logError(err);
         throw err;
     });
